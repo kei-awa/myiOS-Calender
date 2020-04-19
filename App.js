@@ -1,19 +1,61 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View} from 'react-native';
+import DateTask from './src/DateTask';
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello RN</Text>
-    </View>
-  );
+const today = new Date();
+
+export default class App extends Component {
+    constructor(props) {
+      super(props);
+        this.state = {
+          selectedDate: {
+            year: today.getFullYear(),
+            month: today.getMonth() + 1,
+            day: today.getDate()
+          }
+        }
+    }
+
+
+  render () {
+    const {selectedDate} = this.state;
+      return (
+        <View>
+          <View style={styles.Empty_title}></View>
+          <View style={styles.A_Calender}>
+            <Text style={styles.Text_Title}>A  Calendar</Text>
+          </View>
+          <Calendar style={styles.container}
+            onDayPress = {(day) => {this.setState({selectedDate:day})}}/>
+              <DateTask
+              fullDate={selectedDate}
+              />
+        </View>
+      );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 20,
   },
-});
+  Empty_title:{
+    backgroundColor: "#082981",
+    height: 50,
+  },
+  A_Calender:{
+    height: 50,
+    left: 0,
+    right: 0,
+    backgroundColor: "#082981",
+    
+  },
+  Text_Title:{
+    fontSize: 25,
+    textAlign: "center",
+    color: "#fff",
+  }
+})
+
+
