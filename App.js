@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import DateTask from './src/DateTask';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import {Calendar} from 'react-native-calendars';
 
 const today = new Date();
 
@@ -21,17 +21,19 @@ export default class App extends Component {
   render () {
     const {selectedDate} = this.state;
       return (
-        <View>
-          <View style={styles.Empty_title}></View>
-          <View style={styles.A_Calender}>
-            <Text style={styles.Text_Title}>A  Calendar</Text>
+        <ScrollView>
+          <View>
+            <View style={styles.Empty_title}></View>
+            <View style={styles.A_Calender}>
+              <Text style={styles.Text_Title}>A  Calendar</Text>
+            </View>
+            <Calendar style={styles.container}
+              onDayPress = {(day) => {this.setState({selectedDate:day})}}/>
+                <DateTask
+                fullDate={selectedDate}
+                />
           </View>
-          <Calendar style={styles.container}
-            onDayPress = {(day) => {this.setState({selectedDate:day})}}/>
-              <DateTask
-              fullDate={selectedDate}
-              />
-        </View>
+        </ScrollView>
       );
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import TaskItem from './TaskItem';
 import RNPickerSelect from 'react-native-picker-select';
 
 
@@ -25,12 +26,9 @@ export default class DateTask extends Component {
                 finishH: 0,
                 finishM:0,
                 title: "未定",
-            }
-        this.handleSubmit = this.handleSubmit.bind(this);
+            };
+        this.deleteTask = this.deleteTask.bind(this);
     }
-    
-    
-    
     render () {
             const init = {
                     label: 'init',
@@ -155,32 +153,33 @@ export default class DateTask extends Component {
                     ],
                 })
             }} /> 
+            {this.state.taskList.map(task => (
+                <TaskItem 
+                    key={task.title}
+                    year={task.year}
+                    month={task.month}
+                    date={task.date}
+                    startH={task.startH}
+                    startM={task.startM}
+                    finishH={task.finishH}
+                    finishM={task.finishM}
+                    title={task.title}
+                    onTaskDelete={() => this.deleteTask(task)}
+                    fullDate={fullDate}
+                    taskList={this.state.taskList}
+                    selectedD={task.date === date}
+                    selectedM={task.month === month}
+                    selectedY={task.year === year}
+                    />
+            ))}
             </View>
+            
         )
     }
-    handleSubmit() {
-        // const { fullDate } = this.props;
-        // const year = fullDate.year;
-        // const month = fullDate.month;
-        // const date = fullDate.day;
-        //alert('Your favorite flavor is: ' + this.state.start +  "~" + this.state.finish +  this.state.title +" " + month + date );
+    deleteTask(e) {
         this.setState({
-            taskList: [
-                ...this.state.taskList,
-                {
-                    // year: year,
-                    // month: month,
-                    // date: date,
-                    startH: this.state.startH,
-                    startM: this.state.startM,
-                    finishH: this.state.finishH,
-                    finishM: this.state.finishM,
-                    title: "未定",
-                    detail: "未定"
-                }
-            ],
-        });
-        event.preventDefault();
+            taskList: this.state.taskList.filter(x => x !== e)
+        })
     }
 }
 
