@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollVie, ART} from 'react-native';
 import DateTask from './src/DateTask';
+import MonthTask from './src/MonthTask/MonthTask'
 import {Calendar} from 'react-native-calendars';
+import { Circle } from 'react-native-progress';
+
+const {Circle} = ART;
+
+
 
 const today = new Date();
 
@@ -32,6 +38,8 @@ export default class App extends Component {
                 <DateTask
                 fullDate={selectedDate}
                 />
+                <MonthTask />
+                <Circle />
           </View>
         </ScrollView>
       );
