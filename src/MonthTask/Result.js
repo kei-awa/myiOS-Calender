@@ -17,7 +17,7 @@ export default class Result extends Component{
                                         shadowColor="#grey"
                                         bgColor="#fff"
                                     >
-                            <Text style={{ fontSize: 18 }}>congratulation!!</Text>
+                            <Text style={{ fontSize: 10 }}>congratulation!!</Text>
                         </ProgressCircle>
                     </View>
             );

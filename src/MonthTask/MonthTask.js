@@ -67,23 +67,26 @@ export default class MonthTasK extends Component {
                 </View>
                 </Modal>
                 {/* モダルおわり */}
-                <Text style={{margin: 20, fontSize: 30}}>今月の予定</Text>
-                 <View style={{ borderBottomColor: "black", borderBottomWidth: 2 ,margin: 20}}></View>
-                {this.state.monthTasks.map((tasks) => {
-                    return (
-                    <Achievement 
-                        task={tasks.task}
-                        onTaskDelete={() => this.deleteTask(tasks)} />
-                    )
-                })}
+                    <Text style={{margin: 20, fontSize: 30}}>今月の予定</Text>
+                    <View style={{ borderBottomColor: "black", borderBottomWidth: 2 ,margin: 20}}></View>
+                    <View  style={styles.MonthTaskItems}>
+                        {this.state.monthTasks.map((tasks) => {
+                            return (
+                            <Achievement 
+                                task={tasks.task}
+                                onTaskDelete={() => this.deleteTask(tasks)} />
+                            )
+                        })}
+                    </View>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    Month:{
-
+    MonthTaskItems:{
+        alignItems:"center",
+        margin: 20,
     },
     month_addTitle:{
         margin: 10,
@@ -116,8 +119,8 @@ const styles = StyleSheet.create({
     M_submitModal:{
         backgroundColor: "#fff",
         borderRadius: 10,
-        marginTop: 200,
-        marginBottom: 400,
+        marginTop: 100,
+        marginBottom: 200,
     },
 
 })

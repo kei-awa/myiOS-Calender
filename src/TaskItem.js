@@ -27,7 +27,7 @@ export default class TaskItem extends Component {
                     <View style={styles.taskItem}>
                         <Text style={styles.ToDoTitle}>{title}</Text>
                         <View style={styles.underLine}></View>
-                         <View style={{flexDirection: 'row', marginTop: 10}}>
+                         <View style={{flexDirection: 'row', marginTop: 10, justifyContent: "space-around", marginRight:10}}>
                             <View style={styles.dayInfo}>
                                 <Text style={styles.dayInfoText}>date</Text>
                                 <Text style={styles.selectDayText}>{year},{month},{date}</Text>
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     },
     deleteBtn:{
         marginTop: 5,
-        marginLeft: 30,
         justifyContent: 'center',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
         backgroundColor: "red",
         marginBottom: 10,
@@ -83,10 +82,10 @@ const styles = StyleSheet.create({
     },
     dayInfo:{
         marginLeft: 20,
-        width:75,
+        width:100,
     },
     timeInfo:{
-        marginLeft: 50,
+
         width:100,
     }
 })

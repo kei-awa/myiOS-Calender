@@ -126,8 +126,6 @@ export default class Achievement extends Component {
 const styles = StyleSheet.create({
     monthTaskSheet:{
         marginTop: 20,
-        marginLeft: 20,
-        width: 380,
         borderColor: "grey",
         borderWidth: 1
     },
@@ -161,10 +159,9 @@ const styles = StyleSheet.create({
         width: 150
     },
     AchievementGraph:{
-        width: 200,
+        width: 160,
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 15
     },
     operationGroup:{
         width: 160,
