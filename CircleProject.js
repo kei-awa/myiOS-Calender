@@ -4,6 +4,7 @@ import ProgressCircle from 'react-native-progress-circle';
 
 export default class CircleProject extends Component {
     render() {
+
         return (
             <View>
                 <View style={styles.circleProject}>

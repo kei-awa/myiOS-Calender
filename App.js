@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import DateTask from './src/DateTask';
 import MonthTask from './src/MonthTask/MonthTask'
 import {Calendar} from 'react-native-calendars';
+import ModalProject from './src/ModalProject'
 //import CircleProject from './CircleProject';
 
 
@@ -20,6 +21,7 @@ export default class App extends Component {
         }
     }
 
+  
 
   render () {
     const {selectedDate} = this.state;

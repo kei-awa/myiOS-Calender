@@ -11,10 +11,10 @@ export default class Result extends Component{
                     <View>
                         <ProgressCircle
                                         percent={100}
-                                        radius={80}
-                                        borderWidth={2}
+                                        radius={60}
+                                        borderWidth={8}
                                         color="#1998FF"
-                                        shadowColor="#fff"
+                                        shadowColor="#grey"
                                         bgColor="#fff"
                                     >
                             <Text style={{ fontSize: 18 }}>congratulation!!</Text>
@@ -25,14 +25,14 @@ export default class Result extends Component{
             return (
                 <View>
                     <ProgressCircle
-                                    percent={achievement + 1}
-                                    radius={80}
-                                    borderWidth={2}
+                                    percent={achievement + 0.5}
+                                    radius={60}
+                                    borderWidth={8}
                                     color="#1998FF"
-                                    shadowColor="#fff"
+                                    shadowColor="#EEEEEE"
                                     bgColor="#fff"
                                 >
-                        <Text style={{ fontSize: 18 }}>{achievement}{'%'}</Text>
+                        <Text style={{ fontSize: 18 }}>進捗: {achievement}{'%'}</Text>
                     </ProgressCircle>
                 </View>
             );
