@@ -22,6 +22,7 @@ export default class  Calendar_UI extends Component {
   render () {
     const {selectedDate} = this.state;
       return (
+        <ScrollView>
           <View>
             <Calendar style={styles.container}
               onDayPress = {(day) => {this.setState({selectedDate:day})}}/>
@@ -30,6 +31,8 @@ export default class  Calendar_UI extends Component {
                 />
                 <MonthTask />
           </View>
+          <View style={styles.footer}></View>
+          </ScrollView>
       );
   }
 }
@@ -37,6 +40,10 @@ export default class  Calendar_UI extends Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
+  },
+  footer:{
+    marginTop: 100,
+    height: 50
   }
 })
 
