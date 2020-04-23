@@ -3,21 +3,45 @@ import { StyleSheet, Text, View, TextInput, Button} from 'react-native';
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createStackNavigator } from '@react-navigation/stack';
 
+
+
+
+
+
 export default class Login extends Component {
     state= {
         email: '',
         PassWord:''
     }
-    render () {
+
+
+    handleSubmit() {
+        //submit()
         const { navigation} = this.props;
+        navigation.navigate('Calender')
+    }
+    render () {
+        
 
         return (
             <View style={styles.LoginContainer}>
                 <Text style={styles. LoginTitle}>Login</Text>
-                <TextInput style={styles.input} value="E_Mail Address" />
-                <TextInput  style={styles.input} value="PassWord" />
+                <TextInput 
+                style={styles.input} 
+                onChangeText={(value) => {this.setState({ email:value })}}
+                autoCapitalize="none"
+                autoCorrect={false}
+                placeholder=" Email Address"
+                />
+                <TextInput  style={styles.input}
+                 onChangeText={(value) => {this.setState({ PassWord:value })}}
+                 autoCapitalize="none"
+                 autoCorrect={false}
+                 secureTextEntry
+                 placeholder=" PassWord"
+                />
                 <View style={styles.LoginBtn}>
-                    <Button title="Login" onPress={() => {navigation.navigate('Calender')}} />
+                    <Button title="Login" onPress={this.handleSubmit.bind(this)} />
                 </View>
             </View>
         );
@@ -32,7 +56,7 @@ const styles = StyleSheet.create({
     input:{
         margin:20,
         height: 40,
-        borderColor: "#eee",
+        borderColor: "grey",
         borderWidth: 1,
         backgroundColor: "#eee"
     },
