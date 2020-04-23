@@ -6,6 +6,7 @@ import Login from './Login';
 import Calendar_UI from './Calendar_UI';
 import firebase from 'firebase';
 import ENV from './env.json';
+import SignUp from './SignUp';
 
 
 const firebaseConfig = {
@@ -27,6 +28,14 @@ function LoginScreen({ navigation }) {
   return (
     <View>
       <Login navigation={navigation} />
+    </View>
+  );
+}
+
+function SignUpScreen({ navigation }) {
+  return (
+    <View>
+      <SignUp navigation={navigation} />
     </View>
   );
 }
@@ -54,8 +63,9 @@ function App() {
           fontWeight: 'bold',
         },
       }}>
-        <Stack.Screen name="Login" component={LoginScreen} options={{ title: "AiCo" }}/>
-        <Stack.Screen name="Calender" component={CalenderScreen} options={{ title: "AiCo" }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ title: "Login" }}/>
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: "SignUp!!" }} />
+        <Stack.Screen name="Calender" component={CalenderScreen} options={{ title: "calendar" }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
