@@ -4,8 +4,8 @@ import firebase from 'firebase';
 
 export default class Login extends Component {
     state= {
-        email: '',
-        password:''
+        email: 'user1@example.com',
+        password:'password'
     }
 
 
@@ -19,7 +19,7 @@ export default class Login extends Component {
             })
             .catch((error) => {
                 console.log(error);
-            })
+            });
     }
     render () {
         const { navigation} = this.props;

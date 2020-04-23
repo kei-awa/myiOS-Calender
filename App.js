@@ -9,6 +9,11 @@ import ENV from './env.json';
 import SignUp from './SignUp';
 
 
+// Required for side-effects
+require("firebase/firestore");
+
+
+
 const firebaseConfig = {
   apiKey: ENV.FIREBASE_API_KEY,
   authDomain: ENV.FIREBASE_AUTH_DOMAIN,
@@ -21,6 +26,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 
 
 
@@ -40,10 +46,10 @@ function SignUpScreen({ navigation }) {
   );
 }
 
-function CalenderScreen() {
+function CalenderScreen({ navigation }) {
   return (
     <View style={{ backgroundColor:"#fff" }}>
-      <Calendar_UI />
+      <Calendar_UI navigation={navigation} />
     </View>
   );
 }

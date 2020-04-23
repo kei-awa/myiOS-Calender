@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity} from 'reac
 import TaskItem from './TaskItem';
 import RNPickerSelect from 'react-native-picker-select';
 import Modal from 'react-native-modal';
+import firebase from "firebase";
 
 
 const hours = [];
@@ -13,6 +14,7 @@ const minutes = [];
 for (let i = 0; i <= 5; i++) {
     minutes.push({label: String(i*10), value: i*10});
 }
+
 export default class DateTask extends Component {
     constructor(props){
         super(props);
@@ -33,10 +35,30 @@ export default class DateTask extends Component {
     state = {
         isModalVisible: false,
       };
+    
+    
 
     toggleModal = () => {
-    this.setState({isModalVisible: !this.state.isModalVisible});
+        this.setState({isModalVisible: !this.state.isModalVisible});
+    
     };
+    componentWillMount() {
+        const db = firebase.firestore();
+            const { currentUser } = firebase.auth();
+            db.collection(`users/${currentUser.uid}/dateTasks`)
+            .get()
+            .then((querySnapshot) => {
+                const taskList = [];
+                querySnapshot.forEach((doc) => {
+                    taskList.push(doc.data());
+                    this.setState({ taskList });
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
     render () {
             const init = {
                     label: '00',
@@ -47,13 +69,13 @@ export default class DateTask extends Component {
                 label: '00',
                 value: 0,
                 color: '#9EA0A4',
-            };
+                };
+
+       
             const {fullDate} = this.props;
             const year = fullDate.year;
             const month = fullDate.month;
             const date = fullDate.day;
-            
-            
         return (
             <View>
                 {/* モダル追加 */}
@@ -150,10 +172,11 @@ export default class DateTask extends Component {
                     </View>
                     <View style={{ margin:75, marginTop: 0, marginBottom: 0}}>
                         <Button title="Add" onPress={() => {
-                            this.setState({
-                                    taskList: [
-                                    ...this.state.taskList,
-                                    {
+                            const db = firebase.firestore();
+                            const {currentUser} = firebase.auth();
+                            console.log(currentUser);
+                            console.log(currentUser.uid);
+                            db.collection(`users/${currentUser.uid}/dateTasks`).add({
                                         year: year,
                                         month: month,
                                         date: date,
@@ -162,8 +185,27 @@ export default class DateTask extends Component {
                                         finishH: this.state.finishH,
                                         finishM: this.state.finishM,
                                         title: this.state.title,
-                                    }
-                                ],
+                            })
+                            .then((docRef) => {
+                                console.log(docRef.id);
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+                            this.setState({
+                                //     taskList: [
+                                //     ...this.state.taskList,
+                                //     {
+                                //         year: year,
+                                //         month: month,
+                                //         date: date,
+                                //         startH: this.state.startH,
+                                //         startM: this.state.startM,
+                                //         finishH: this.state.finishH,
+                                //         finishM: this.state.finishM,
+                                //         title: this.state.title,
+                                //     }
+                                // ],
                                 isModalVisible: !this.state.isModalVisible
                             })
                         }} />
@@ -198,6 +240,18 @@ export default class DateTask extends Component {
             </View>
             
         )
+    }
+    componentDidMount() {
+        const db = firebase.firestore();
+        const { currentUser } = firebase.auth();
+        db.collection(`users/${currentUser.uid}/dateTasks`)
+        .get()
+        .then((querySnapshot) =>{
+            console.log(querySnapshot);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     deleteTask(e) {
         this.setState({
