@@ -7,13 +7,14 @@ import firebase from "firebase";
 
 
 const hours = [];
-for (let i = 0; i <= 24; i++){
+for (let i = 1; i <= 24; i++){
     hours.push({label: String(i), value: i});
 }
 const minutes = [];
-for (let i = 0; i <= 5; i++) {
+for (let i = 1; i <= 5; i++) {
     minutes.push({label: String(i*10), value: i*10});
 }
+
 
 export default class DateTask extends Component {
     constructor(props){
@@ -34,31 +35,23 @@ export default class DateTask extends Component {
     }
     state = {
         isModalVisible: false,
-      };
-    
-    
-
+    };
     toggleModal = () => {
         this.setState({isModalVisible: !this.state.isModalVisible});
-    
-    };
-    componentWillMount() {
-        const db = firebase.firestore();
-            const { currentUser } = firebase.auth();
-            db.collection(`users/${currentUser.uid}/dateTasks`)
-            .get()
-            .then((querySnapshot) => {
-                const taskList = [];
-                querySnapshot.forEach((doc) => {
-                    taskList.push(doc.data());
-                    this.setState({ taskList });
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
     }
+    componentDidMount() {
+        const db = firebase.firestore();
+        const { currentUser } = firebase.auth();
+            db.collection(`users/${currentUser.uid}/dateTasks`).orderBy("startH")
+            .onSnapshot((querySnapshot) => {
+                const firebaseTaskList = [];
+                querySnapshot.forEach((doc) => {
+                    firebaseTaskList.push({...doc.data(), key: doc.id});
+                    console.log(firebaseTaskList);
+                    this.setState({ taskList: firebaseTaskList})
+                });
+            });
+        }
     render () {
             const init = {
                     label: '00',
@@ -76,6 +69,7 @@ export default class DateTask extends Component {
             const year = fullDate.year;
             const month = fullDate.month;
             const date = fullDate.day;
+            
         return (
             <View>
                 {/* モダル追加 */}
@@ -186,27 +180,15 @@ export default class DateTask extends Component {
                                         finishM: this.state.finishM,
                                         title: this.state.title,
                             })
-                            .then((docRef) => {
-                                console.log(docRef.id);
+                            .then(() => {
+                                this.setState({
+                                
+                                isModalVisible: !this.state.isModalVisible
                             })
                             .catch((error) => {
                                 console.log(error);
                             });
-                            this.setState({
-                                //     taskList: [
-                                //     ...this.state.taskList,
-                                //     {
-                                //         year: year,
-                                //         month: month,
-                                //         date: date,
-                                //         startH: this.state.startH,
-                                //         startM: this.state.startM,
-                                //         finishH: this.state.finishH,
-                                //         finishM: this.state.finishM,
-                                //         title: this.state.title,
-                                //     }
-                                // ],
-                                isModalVisible: !this.state.isModalVisible
+                            
                             })
                         }} />
                         <Button title="Close" onPress={this.toggleModal} />
@@ -219,7 +201,7 @@ export default class DateTask extends Component {
                     <View style={{ borderBottomColor: "black", borderBottomWidth: 2 ,margin: 20}}></View>
                     {this.state.taskList.map(task => (
                         <TaskItem 
-                            key={task.title}
+                            key={task.key}
                             year={task.year}
                             month={task.month}
                             date={task.date}
@@ -241,22 +223,19 @@ export default class DateTask extends Component {
             
         )
     }
-    componentDidMount() {
-        const db = firebase.firestore();
-        const { currentUser } = firebase.auth();
-        db.collection(`users/${currentUser.uid}/dateTasks`)
-        .get()
-        .then((querySnapshot) =>{
-            console.log(querySnapshot);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
     deleteTask(e) {
-        this.setState({
-            taskList: this.state.taskList.filter(x => x !== e)
-        })
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        console.log(e.key);
+        db.collection(`users/${currentUser.uid}/dateTasks`).doc(e.key).delete()
+        .then(() => {
+            console.log("Document successfully deleted!");
+            this.setState({
+                taskList: this.state.taskList.filter(x => x !== e)
+            })
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
     }
 }
 

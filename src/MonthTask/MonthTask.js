@@ -27,6 +27,19 @@ export default class MonthTasK extends Component {
             monthTasks: this.state.monthTasks.filter(x => x !== e)
         })
     }
+    componentDidMount() {
+        const db = firebase.firestore();
+        const { currentUser } = firebase.auth();
+            db.collection(`users/${currentUser.uid}/monthTasks`).orderBy("startH")
+            .onSnapshot((querySnapshot) => {
+                const monthTasks = [];
+                querySnapshot.forEach((doc) => {
+                    monthTasks.push({...doc.data(), key: doc.id});
+                    console.log(monthTasks);
+                    this.setState({ monthTasks })
+                });
+            });
+        }
     render () {
         return (
             <View style={styles.Month}>
@@ -50,17 +63,13 @@ export default class MonthTasK extends Component {
                     </View>
                     <View style={{alignItems: 'center', width: 150 }}>
                         <TouchableOpacity style={styles.submitBtn} onPress={() => {
+                            const db = firebase.firestore();
+                            const { currentUser} = 
                             this.setState({
-                                monthTasks:[
-                                    ...this.state.monthTasks,
-                                    {
-                                        task:this.state.task
-                                    }
-                                ],
                                 isModalVisible: !this.state.isModalVisible
                             })
                         }}>
-                                <Text style={{color: "#fff", fontSize: 18}}> submit</Text>
+                                <Text style={{color: "#fff", fontSize: 18}}>Add</Text>
                         </TouchableOpacity>
                         <Button title="Close" onPress={this.toggleModal} />
                     </View>
