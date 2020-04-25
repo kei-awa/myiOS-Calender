@@ -4,8 +4,8 @@ import firebase from 'firebase';
 
 export default class Login extends Component {
     state= {
-        email: 'user1@example.com',
-        password:'password'
+        email: '',
+        password:''
     }
 
 
@@ -18,7 +18,7 @@ export default class Login extends Component {
                 navigation.navigate('Calender')
             })
             .catch((error) => {
-                console.log(error);
+                alert(error);
             });
     }
     render () {

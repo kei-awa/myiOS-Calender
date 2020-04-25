@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Button} from 'react-native'; 
 import Achievement from './Achievement';
-
+import firebase from 'firebase';
 import Modal from 'react-native-modal';
 
 export default class MonthTasK extends Component {
@@ -10,6 +10,7 @@ export default class MonthTasK extends Component {
         this.state = {
             monthTasks: [],
             task: "未定",
+            achievement: 0
         };
         this.deleteTask = this.deleteTask.bind(this);
     }
@@ -20,17 +21,24 @@ export default class MonthTasK extends Component {
     toggleModal = () => {
         this.setState({isModalVisible: !this.state.isModalVisible});
     };
-  
-
     deleteTask(e) {
-        this.setState({
+       const db = firebase.firestore();
+       const { currentUser} = firebase.auth();  
+       console.log(e.key);
+       db.collection(`users/${currentUser.uid}/monthTaskList`).doc(e.key).delete()
+       .then(() => {
+            console.log("Document successfully deleted!");
+            this.setState({
             monthTasks: this.state.monthTasks.filter(x => x !== e)
-        })
+            })
+       }).catch((error) => {
+           console.log("Error removing document: ", error);
+       });
     }
     componentDidMount() {
         const db = firebase.firestore();
         const { currentUser } = firebase.auth();
-            db.collection(`users/${currentUser.uid}/monthTasks`).orderBy("startH")
+            db.collection(`users/${currentUser.uid}/monthTaskList`)
             .onSnapshot((querySnapshot) => {
                 const monthTasks = [];
                 querySnapshot.forEach((doc) => {
@@ -64,9 +72,19 @@ export default class MonthTasK extends Component {
                     <View style={{alignItems: 'center', width: 150 }}>
                         <TouchableOpacity style={styles.submitBtn} onPress={() => {
                             const db = firebase.firestore();
-                            const { currentUser} = 
-                            this.setState({
-                                isModalVisible: !this.state.isModalVisible
+                            const { currentUser} = firebase.auth();
+                            db.collection(`users/${currentUser.uid}/monthTaskList`).add({
+                                task: this.state.task,
+                                achievement: this.state.achievement
+                            })
+                            .then(() => {
+                                console.log("success");
+                                this.setState({
+                                    isModalVisible: !this.state.isModalVisible
+                                });
+                            })
+                            .catch((error) => {
+                                console.log(error);
                             })
                         }}>
                                 <Text style={{color: "#fff", fontSize: 18}}>Add</Text>
@@ -81,8 +99,10 @@ export default class MonthTasK extends Component {
                     <View  style={styles.MonthTaskItems}>
                         {this.state.monthTasks.map((tasks) => {
                             return (
-                            <Achievement 
+                            <Achievement key={tasks.key}
                                 task={tasks.task}
+                                id={tasks.key}
+                                achievement={tasks.achievement}
                                 onTaskDelete={() => this.deleteTask(tasks)} />
                             )
                         })}

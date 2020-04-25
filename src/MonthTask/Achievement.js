@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'; 
 import RNPickerSelect from 'react-native-picker-select';
 import Result from './Result';
+import firebase, { auth } from 'firebase';
 
 
 const hundred = [{
@@ -13,17 +14,18 @@ const tens = [];
 for (let i = 1; i <= 9; i++){
     tens.push({label: String(i), value: i});
 }
-
 export default class Achievement extends Component {
     constructor(props) {
         super(props);
-        this.state = {  achievement: 0,
+        this.state = {  achievement: props.achievement,
+                        key: props.key,
                         hundred: 0,
                         ten: 0,
                         one: 0};
       }
     render () {
-        const { task, onTaskDelete } = this.props;
+        const { task, onTaskDelete, id} = this.props;
+        console.log(id);
         const num = {
             label: '0',
             value: 0,
@@ -99,10 +101,18 @@ export default class Achievement extends Component {
                             </View>
                         </View>
                             <View style={styles.BtnGroup}>
-                                <TouchableOpacity style={styles. exchangeBtn} onPress={() => {
-                                        this.setState({
-                                            achievement: Number(this.state.hundred * 100 )+ Number(this.state.ten * 10) + Number(this.state.one)
-                                        })
+                                <TouchableOpacity style={styles.exchangeBtn} onPress={() => {
+                                        const db = firebase.firestore();
+                                        const { currentUser } = firebase.auth();
+                                        console.log(id);
+                                        db.collection(`users/${currentUser.uid}/monthTaskList`).doc(id).update({
+                                            achievement : Number(this.state.hundred * 100 )+ Number(this.state.ten * 10) + Number(this.state.one)
+                                        }).then(() => {
+                                            console.log("success");
+                                            this.setState({achievement : Number(this.state.hundred * 100 )+ Number(this.state.ten * 10) + Number(this.state.one)})
+                                        }).catch((error) => {
+                                            console.log(error);
+                                        });
                                     }}>
                                         <Text style={{color: "#fff",}}>change</Text>
                                 </TouchableOpacity>
@@ -113,6 +123,8 @@ export default class Achievement extends Component {
                         </View>
                         <View style={styles.AchievementGraph}>
                             <Result 
+                                id={id}
+                                onTaskDelete={onTaskDelete}
                                 achievement={this.state.achievement}
                                 congratulation={this.state.achievement >= 100}
                             />

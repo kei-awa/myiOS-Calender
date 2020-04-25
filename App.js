@@ -7,6 +7,11 @@ import Calendar_UI from './Calendar_UI';
 import firebase from 'firebase';
 import ENV from './env.json';
 import SignUp from './SignUp';
+import {decode, encode} from 'base-64'
+
+if (!global.btoa) {  global.btoa = encode }
+
+if (!global.atob) { global.atob = decode }
 
 
 // Required for side-effects

@@ -17,7 +17,7 @@ export default class SignUp extends Component {
             navigation.navigate('Calender')
         })
         .catch((error) => {
-            console.log(error)
+            alert(error)
         });
     }
     render () {
