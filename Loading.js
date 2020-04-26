@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { ActivityIndicator,StyleSheet, View, Text} from 'react-native';
 
-const Loading = (props) => {
-    const { isLoading} = props;
-    if (!isLoading) {
-        return null;
+
+class Loading extends Component {
+    render() {
+        const {isLoading} = this.props;
+        if (!isLoading) {
+            return null;
+        } else {
+            return (
+                <View style={styles.container}>
+                    <View style={styles.Loadingtext}>
+                        <ActivityIndicator />
+                        <Text style={{fontSize: 18, margin: 20}}>ログイン中...</Text>
+                    </View>
+                </View>
+            );   
+        } 
     }
-        return (
-             <View style={styles.container}>
-                 <ActivityIndicator style={{size:large}}/>
-                 <Text style={{fontSize: 18}}>ログイン中...</Text>
-             </View>
-        );
 }
 
-export default Loading();
+export default Loading;
 
 const styles = StyleSheet.create({
     container:{
@@ -24,9 +30,16 @@ const styles = StyleSheet.create({
         right: 0,
         top: 0,
         bottom: 0,
-        zIndex: 100,
+        height: 1000,
+        zIndex: 300,
         justifyContent: "center",
-        alignContent: "center",
-        margin: 40,
+        textAlign:"center",
+    },
+    Loadingtext:{
+        position: "absolute",
+        height: 600,
+        marginLeft: 125,
+
+
     }
 });

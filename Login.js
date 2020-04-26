@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { StyleSheet, Text, View, TextInput, Button} from 'react-native';
 import firebase from 'firebase';
-import Loading from './Loading';
+//import Loading from './Loading';
 
 
 export default class Login extends Component {
@@ -45,29 +45,31 @@ export default class Login extends Component {
     render () {
         const { navigation} = this.props;
         return (
-            <View style={styles.LoginContainer}>
-                <Loading isLoading={true} />
-                <Text style={styles. LoginTitle}>Login</Text>
-                <TextInput 
-                style={styles.input} 
-                value={this.state.email}
-                onChangeText={(value) => {this.setState({ email:value })}}
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholder=" Email Address"
-                />
-                <TextInput  
-                style={styles.input}
-                value={this.state.password}
-                 onChangeText={(value) => {this.setState({ password:value })}}
-                 autoCapitalize="none"
-                 autoCorrect={false}
-                 secureTextEntry
-                 placeholder=" PassWord"
-                />
-                <View style={styles.LoginBtn}>
-                    <Button title="Login" onPress={this.handleSubmit.bind(this)} />
-                    <Button title="SignUp" onPress={() => {navigation.navigate('SignUp')}} />
+            <View>
+                
+                    <View style={styles.LoginContainer}>
+                    <Text style={styles. LoginTitle}>Login</Text>
+                    <TextInput 
+                    style={styles.input} 
+                    value={this.state.email}
+                    onChangeText={(value) => {this.setState({ email:value })}}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholder=" Email Address"
+                    />
+                    <TextInput  
+                    style={styles.input}
+                    value={this.state.password}
+                    onChangeText={(value) => {this.setState({ password:value })}}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry
+                    placeholder=" PassWord"
+                    />
+                    <View style={styles.LoginBtn}>
+                        <Button title="Login" onPress={this.handleSubmit.bind(this)} />
+                        <Button title="SignUp" onPress={() => {navigation.navigate('SignUp')}} />
+                    </View>
                 </View>
             </View>
         );
