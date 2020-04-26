@@ -36,7 +36,7 @@ export default class Achievement extends Component {
                 <View style={{flexDirection: "row"}}>
                     <View style={styles.operationGroup}>
                     <View style={styles.titleGroup}>
-                        <Text style={{fontSize:20}}>{task}</Text>
+                        <Text style={{fontSize:20}}>{task.substring(0, 20)}</Text>
                     </View>
                         <View style={{flexDirection: "row", margin:10}}>
                             <View style={{ height: 27}}>

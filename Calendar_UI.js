@@ -25,7 +25,8 @@ export default class  Calendar_UI extends Component {
         <ScrollView>
           <View>
             <Calendar style={styles.container}
-              onDayPress = {(day) => {this.setState({selectedDate:day})}}/>
+              onDayPress = {(day) => {this.setState({selectedDate:day})}}
+              />
                 <DateTask
                 fullDate={selectedDate}
                 />

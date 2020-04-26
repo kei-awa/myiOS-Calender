@@ -25,7 +25,7 @@ export default class TaskItem extends Component {
             return (
                 <View {...props}>
                     <View style={styles.taskItem}>
-                        <Text style={styles.ToDoTitle}>{title}</Text>
+                        <Text style={styles.ToDoTitle}>{title.substring(0, 20)}</Text>
                         <View style={styles.underLine}></View>
                          <View style={{flexDirection: 'row', marginTop: 10, justifyContent: "space-around", marginRight:10}}>
                             <View style={styles.dayInfo}>

@@ -1,11 +1,30 @@
 import React, { Component } from 'react';
+import * as SecureStore from 'expo-secure-store';
 import { StyleSheet, Text, View, TextInput, Button} from 'react-native';
 import firebase from 'firebase';
+import Loading from './Loading';
+
 
 export default class Login extends Component {
     state= {
         email: '',
         password:''
+    }
+
+    async componentDidMount() {
+        const email = await SecureStore.getItemAsync('email');
+        const password = await SecureStore.getItemAsync('password');
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
+            console.log("success", user);
+            SecureStore.setItemAsync('email', this.state.email);
+            SecureStore.setItemAsync('password', this.state.password);
+            const { navigation} = this.props;
+            navigation.navigate('Calender')
+        })
+        .catch(() => {
+            null
+        });
     }
 
 
@@ -14,6 +33,8 @@ export default class Login extends Component {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((user) => {
                 console.log("success", user);
+                SecureStore.setItemAsync('email', this.state.email);
+                SecureStore.setItemAsync('password', this.state.password);
                 const { navigation} = this.props;
                 navigation.navigate('Calender')
             })
@@ -25,6 +46,7 @@ export default class Login extends Component {
         const { navigation} = this.props;
         return (
             <View style={styles.LoginContainer}>
+                <Loading isLoading={true} />
                 <Text style={styles. LoginTitle}>Login</Text>
                 <TextInput 
                 style={styles.input} 
