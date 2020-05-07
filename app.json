@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-ioscalendar-app",
-    "slug": "my-ioscalendar-app",
+    "name": "schedule memorizer",
+    "slug": "schedule memorizer",
     "platforms": [
       "ios",
       "android",
@@ -22,7 +22,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "jp.schedulememorizer"
     }
   }
 }
